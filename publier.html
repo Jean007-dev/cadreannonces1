@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Publier une annonce</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style> body { font-family: 'Inter', sans-serif; scroll-behavior: smooth; } </style>
+</head>
+<body class="bg-gray-50 min-h-screen flex flex-col">
+
+  <!-- Navbar -->
+  <header class="bg-white shadow px-6 py-4">
+    <h1 class="text-2xl font-bold text-blue-600">Publier une annonce</h1>
+  </header>
+
+  <!-- Formulaire -->
+  <main class="flex-grow max-w-3xl mx-auto p-6">
+    <form id="annonceForm" class="bg-white rounded-2xl shadow p-6 space-y-4">
+
+      <!-- Titre -->
+      <div>
+        <label for="titre" class="block font-medium mb-1">Titre</label>
+        <input type="text" id="titre" name="titre" placeholder="Ex : iPhone 14 Pro"
+               class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+      </div>
+
+      <!-- Description -->
+      <div>
+        <label for="description" class="block font-medium mb-1">Description</label>
+        <textarea id="description" name="description" placeholder="Décrivez votre annonce..." rows="4"
+                  class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" required></textarea>
+      </div>
+
+      <!-- Prix -->
+      <div>
+        <label for="prix" class="block font-medium mb-1">Prix (FCFA)</label>
+        <input type="number" id="prix" name="prix" placeholder="Ex : 500000"
+               class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+      </div>
+
+      <label for="categorie" class="block mb-1 font-medium">Catégorie</label>
+<select name="categorie" id="categorie" required
+        class="border rounded-xl p-2 w-full">
+  <option value="">-- Choisir une catégorie --</option>
+  <option value="Electronique">Electronique</option>
+  <option value="Véhicules">Véhicules</option>
+  <option value="Immobilier">Immobilier</option>
+  <option value="Autres">Autres</option>
+</select>
+
+
+      <!-- Image + prévisualisation -->
+      <div>
+        <label class="block font-medium mb-1">Image</label>
+        <input type="file" id="image" name="image" accept="image/*" required
+               class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0
+                      file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-600 hover:file:bg-blue-100"/>
+        <img id="preview" class="mt-4 rounded-lg shadow w-full max-h-64 object-cover hidden" />
+      </div>
+
+      <!-- Bouton -->
+      <button type="submit"
+              class="bg-blue-600 text-white px-6 py-2 rounded-xl font-semibold hover:bg-blue-700 transition">
+        Publier
+      </button>
+    </form>
+  </main>
+
+  <script>
+    document.getElementById("annonceForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const formData = new FormData();
+      formData.append("titre", document.getElementById("titre").value);
+      formData.append("description", document.getElementById("description").value);
+      formData.append("prix", document.getElementById("prix").value);
+      formData.append('categorie', categorie);
+      formData.append("image", document.getElementById("image").files[0]);
+
+      try {
+        const response = await fetch("http://localhost:5000/api/annonces", {
+          method: "POST",
+          body: formData
+        });
+
+        const result = await response.json();
+        alert("Annonce publiée avec succès !");
+        console.log("Réponse serveur :", result);
+      } catch (err) {
+        console.error("Erreur :", err);
+        alert("Erreur : impossible d’envoyer la requête au serveur !");
+      }
+    });
+  </script>
+</body>
+</html>
