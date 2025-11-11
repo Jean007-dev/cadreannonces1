@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mon Profil Professionnel</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* --- Variables et Reset --- */
+        :root {
+            --couleur-primaire: #ffa500; /* Bleu classique */
+            --couleur-secondaire: #6c757d; /* Gris de texte */
+            --couleur-fond: #f4f6f9; /* Fond très léger */
+            --couleur-carte: #ffffff;
+            --couleur-ombre: rgba(0, 0, 0, 0.08);
+            --rayon-bordure: 10px;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--couleur-fond);
+            color: var(--couleur-secondaire);
+            line-height: 1.6;
+            margin: 0;
+            padding: 40px 20px;
+        }
+
+        /* --- Mise en page Générale (Grid) --- */
+        .profil-container {
+            max-width: 1200px;
+            margin: auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr; /* 2/3 pour la partie principale, 1/3 pour la barre latérale */
+            gap: 30px;
+        }
+
+        /* --- Style des Cartes (Composants) --- */
+        .card {
+            background-color: var(--couleur-carte);
+            padding: 30px;
+            border-radius: var(--rayon-bordure);
+            box-shadow: 0 4px 15px var(--couleur-ombre);
+            margin-bottom: 30px;
+        }
+
+        .card h3 {
+            color: var(--couleur-primaire);
+            border-bottom: 2px solid #e9ecef;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+
+        /* --- Carte de Tête (Haut de page) --- */
+        .header-card {
+            display: flex;
+            align-items: center;
+        }
+
+        .photo-profil {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid var(--couleur-primaire);
+            margin-right: 25px;
+        }
+
+        .profil-info h1 {
+            color: var(--couleur-texte);
+            margin: 0 0 5px 0;
+            font-size: 1.8em;
+            font-weight: 700;
+        }
+
+        .profil-info p {
+            margin: 0;
+            color: var(--couleur-secondaire);
+            font-weight: 400;
+        }
+
+        .bouton-modifier {
+            margin-left: auto; /* Pousse le bouton à droite */
+            background-color: transparent;
+            color: var(--couleur-primaire);
+            border: 1px solid var(--couleur-primaire);
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .bouton-modifier:hover {
+            background-color: var(--couleur-primaire);
+            color: var(--couleur-carte);
+        }
+
+        /* --- Carte d'Expérience et Formation --- */
+        .experience-item, .formation-item {
+            margin-bottom: 20px;
+            padding-left: 15px;
+            border-left: 3px solid #ced4da; /* Timeline visuelle */
+        }
+
+        .experience-item h4, .formation-item h4 {
+            margin: 0 0 5px 0;
+            color: var(--couleur-texte);
+            font-weight: 500;
+        }
+
+        .date {
+            font-size: 0.9em;
+            color: var(--couleur-primaire);
+            font-weight: 500;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        /* --- Carte de Compétences (Sidebar) --- */
+        .skill-badge {
+            display: inline-block;
+            background-color: #e9f5ff; /* Fond bleu très clair */
+            color: var(--couleur-primaire);
+            padding: 5px 12px;
+            border-radius: 20px;
+            margin: 0 8px 8px 0;
+            font-size: 0.9em;
+            font-weight: 500;
+        }
+        
+        /* --- Carte de Statistiques/Réseaux (Sidebar) --- */
+        .stat-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .stat-item:last-child {
+            border-bottom: none;
+        }
+
+        .stat-label {
+            color: var(--couleur-secondaire);
+        }
+
+        .stat-value {
+            font-weight: 700;
+            color: var(--couleur-primaire);
+            font-size: 1.1em;
+        }
+
+        /* --- Réactivité (Mobile) --- */
+        @media (max-width: 768px) {
+            .profil-container {
+                grid-template-columns: 1fr; /* Une seule colonne en mobile */
+            }
+            .header-card {
+                flex-direction: column;
+                text-align: center;
+            }
+            .photo-profil {
+                margin: 0 0 15px 0;
+            }
+            .bouton-modifier {
+                margin-top: 20px;
+                margin-left: 0;
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="profil-container">
+        
+        <div class="colonne-principale">
+            
+            <div class="card header-card">
+                <img src="https://via.placeholder.com/100" alt="Photo de Profil" class="photo-profil">
+                <div class="profil-info">
+                    <h1>Jean Dupont</h1>
+                    <p>Développeur Web Full Stack | Spécialiste React & Node.js</p>
+                    <p><i class="fas fa-map-marker-alt"></i> Paris, France</p>
+                </div>
+                <button class="bouton-modifier" onclick="alert('Fonctionnalité de modification à implémenter !')">
+                    <i class="fas fa-edit"></i> Modifier le Profil
+                </button>
+            </div>
+            
+            <div class="card">
+                <h3><i class="fas fa-user-tie"></i> À Propos</h3>
+                <p>Passionné par les technologies du web et l'expérience utilisateur. J'aide les entreprises à construire des applications évolutives et performantes. Plus de 5 ans d'expérience dans la création de solutions de A à Z, du design de la base de données au déploiement.</p>
+                <p style="margin-top: 15px;">**Objectif:** Trouver un poste de Lead Développeur pour encadrer une équipe technique.</p>
+            </div>
+
+            <div class="card">
+                <h3><i class="fas fa-briefcase"></i> Expérience</h3>
+                
+                <div class="experience-item">
+                    <span class="date">Janv. 2022 - Aujourd'hui</span>
+                    <h4>Développeur Senior Full Stack</h4>
+                    <p>Chez Tech Innovations S.A. | Développement d'une plateforme SaaS avec React et NestJS. Optimisation des performances du backend (+40%).</p>
+                </div>
+
+                <div class="experience-item">
+                    <span class="date">Juil. 2018 - Déc. 2021</span>
+                    <h4>Développeur Junior</h4>
+                    <p>Chez Agence Digitale XYZ | Maintenance et développement de sites e-commerce sous WordPress et Symfony.</p>
+                </div>
+                
+                <button class="bouton-modifier" style="width: 100%; margin-top: 10px;">Ajouter une expérience</button>
+            </div>
+
+            <div class="card">
+                <h3><i class="fas fa-graduation-cap"></i> Formation</h3>
+                
+                <div class="formation-item">
+                    <span class="date">2016 - 2018</span>
+                    <h4>Master en Informatique Appliquée</h4>
+                    <p>Université de la Sorbonne, Paris</p>
+                </div>
+
+            </div>
+            
+        </div>
+        
+        <div class="colonne-laterale">
+
+            <div class="card">
+                <h3><i class="fas fa-cogs"></i> Compétences Clés</h3>
+                <div class="competences-list">
+                    <span class="skill-badge">React</span>
+                    <span class="skill-badge">Node.js / Express</span>
+                    <span class="skill-badge">PostgreSQL</span>
+                    <span class="skill-badge">TypeScript</span>
+                    <span class="skill-badge">AWS</span>
+                    <span class="skill-badge">Git / GitLab</span>
+                    <span class="skill-badge">Méthodes Agiles</span>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3><i class="fas fa-chart-line"></i> Activité</h3>
+                
+                <div class="stat-item">
+                    <span class="stat-label">Vues de profil (30 jours)</span>
+                    <span class="stat-value">458</span>
+                </div>
+
+                <div class="stat-item">
+                    <span class="stat-label">Publications publiées</span>
+                    <span class="stat-value">12</span>
+                </div>
+
+                <div class="stat-item">
+                    <span class="stat-label">Dernière connexion</span>
+                    <span class="stat-value">Aujourd'hui</span>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h3><i class="fas fa-link"></i> Liens</h3>
+                <p><i class="fab fa-linkedin"></i> <a href="#" style="color: var(--couleur-secondaire);">LinkedIn/Jean-Dupont</a></p>
+                <p><i class="fab fa-github"></i> <a href="#" style="color: var(--couleur-secondaire);">GitHub/JeanDup</a></p>
+                <p><i class="fas fa-globe"></i> <a href="#" style="color: var(--couleur-secondaire);">Portfolio Personnel</a></p>
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+</html>

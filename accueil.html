@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cadreannonces - Accueil</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    /* ------------------------------------------- */
+    /* STYLES GÉNÉRAUX ET DU MENU (DOIVENT ÊTRE PARTOUT) */
+    /* ------------------------------------------- */
+    :root {
+      --main-color: #ff7b00;
+      --dark: #222;
+      --light: #fff;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background-color: #f9f9f9;
+    }
+
+    header {
+      background-color: var(--main-color);
+      color: var(--light);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 20px;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    header h1 {
+      font-size: 22px;
+      font-weight: 600;
+      margin: 0;
+    }
+
+    .menu-toggle {
+      display: none;
+      font-size: 28px;
+      cursor: pointer;
+    }
+
+    nav {
+      display: flex;
+      gap: 20px;
+    }
+
+    nav a {
+      color: var(--light);
+      text-decoration: none;
+      font-weight: 500;
+      transition: 0.3s;
+    }
+
+    nav a:hover {
+      color: var(--dark);
+    }
+
+    /* Styles pour le Modal (Langue & Devise) */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.5);
+      justify-content: center;
+      align-items: center;
+      z-index: 100;
+    }
+
+    .modal.active {
+      display: flex;
+    }
+
+    .modal-content {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      width: 90%;
+      max-width: 400px;
+      text-align: center;
+    }
+
+    select, .modal-content button {
+        margin: 10px 0;
+    }
+    
+    /* Media Query pour le Menu Mobile */
+    @media (max-width: 768px) {
+      .menu-toggle {
+        display: block;
+      }
+
+      nav {
+        flex-direction: column;
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 250px;
+        height: 100%;
+        background-color: var(--main-color);
+        padding-top: 70px;
+        transition: right 0.4s ease;
+      }
+
+      nav.active {
+        right: 0;
+      }
+
+      nav a {
+        padding: 15px;
+        border-bottom: 1px solid rgba(255,255,255,0.2);
+      }
+    }
+    
+    /* ------------------------------------------- */
+    /* STYLES SPÉCIFIQUES À ACCUEIL.HTML */
+    /* ------------------------------------------- */
+    main {
+      padding: 0;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .search-bar {
+      background-color: var(--light);
+      padding: 20px 30px;
+      margin: 20px auto;
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .search-bar input[type="text"],
+    .search-bar select {
+      padding: 12px 15px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 16px;
+      flex-grow: 1;
+      min-width: 180px;
+    }
+
+    .search-bar button {
+      padding: 12px 30px;
+      font-weight: 600;
+    }
+
+    .section-title {
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--dark);
+      text-align: center;
+      margin: 40px 0 20px 0;
+    }
+    
+    .ads-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 25px;
+      padding: 0 20px 40px 20px;
+    }
+
+    .ad-card {
+      background-color: var(--light);
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s, box-shadow 0.3s;
+      position: relative;
+    }
+
+    .ad-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .ad-card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .ad-content {
+      padding: 15px;
+    }
+
+    .ad-content h4 {
+      margin: 0 0 10px 0;
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--dark);
+    }
+
+    .ad-price {
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--main-color);
+      margin-bottom: 10px;
+    }
+    
+    .ad-price small {
+        font-size: 0.7em;
+        font-weight: 500;
+        color: #888;
+    }
+
+    .ad-meta {
+      font-size: 14px;
+      color: #888;
+    }
+
+    .badge-vedette {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background-color: var(--dark);
+        color: var(--light);
+        padding: 5px 10px;
+        border-radius: 5px;
+        font-size: 12px;
+        font-weight: 600;
+    }
+
+    .category-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 15px;
+      padding: 0 20px 40px 20px;
+    }
+
+    .category-card {
+      text-align: center;
+      padding: 15px;
+      background-color: var(--light);
+      border-radius: 8px;
+      box-shadow: 0 1px 5px rgba(0, 0, 0, 0.05);
+      transition: background-color 0.3s, color 0.3s;
+      text-decoration: none;
+      color: var(--dark);
+    }
+
+    .category-card:hover {
+      background-color: var(--main-color);
+      color: var(--light);
+      transform: translateY(-2px);
+    }
+
+    .category-card i {
+      font-size: 30px;
+      margin-bottom: 10px;
+      display: block;
+      color: var(--main-color);
+      transition: color 0.3s;
+    }
+
+    .category-card:hover i {
+      color: var(--light);
+    }
+
+    .cta-footer {
+        text-align: center;
+        background-color: var(--dark);
+        color: var(--light);
+        padding: 60px 20px;
+        margin-top: 40px;
+    }
+    
+    .cta-footer a.publish-btn {
+        background-color: var(--main-color);
+        color: var(--light);
+        padding: 15px 30px;
+        text-decoration: none;
+        border-radius: 50px;
+        font-weight: 700;
+        font-size: 1.2em;
+        transition: 0.3s;
+    }
+
+    .cta-footer a.publish-btn:hover {
+        background-color: #e66a00;
+        box-shadow: 0 5px 15px rgba(255, 123, 0, 0.4);
+    }
+
+    
+    /* AJOUTS/VÉRIFICATIONS DANS LE <style> de accueil.html */
+
+/* Ajustement pour les petits écrans (smartphones) */
+@media (max-width: 600px) {
+    /* Menu (déjà fait) */
+    /* ... */
+    
+    /* Barre de Recherche : passage en colonne */
+    .search-bar {
+        flex-direction: column;
+        gap: 10px;
+        padding: 15px; /* Réduire le padding */
+    }
+    .search-bar input[type="text"],
+    .search-bar select,
+    .search-bar button {
+        width: 100%;
+        min-width: unset;
+    }
+    
+    /* Titres de section */
+    .section-title {
+        font-size: 24px;
+        margin: 30px 0 15px 0;
+    }
+
+    /* Grille d'Annonces : Laisser en auto-fit, mais réduire les marges */
+    .ads-grid, .category-grid {
+        padding: 0 10px 30px 10px;
+        gap: 15px;
+    }
+
+    /* Bouton CTA en pied de page */
+    .cta-footer a.publish-btn {
+        font-size: 1em;
+        padding: 12px 20px;
+    }
+}
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Cadreannonces</h1>
+    <span class="menu-toggle" onclick="toggleMenu()">☰</span>
+    <nav id="menu">
+      <a href="accueil.html">🏠 Accueil</a>
+      <a href="publier.html">🛒 Publier</a>
+      <a href="profil.html">👤 Profil</a>
+      <a href="vendeurs.html">🏪 Vendeurs</a>
+      <a href="troc.html">🔁 Troc local</a>
+      <a href="paiement.html">💳 Paiement</a>
+      <a href="#" onclick="openModal()">🌍 Langue & Devise</a>
+      <a href="#" onclick="activerOffline()">🔌 Mode Offline</a>
+    </nav>
+  </header>
+
+  <main>
+    <div class="search-bar">
+      <input type="text" placeholder="Que recherchez-vous ? Voiture, emploi, maison..." title="Recherche par mot clé">
+      <select title="Catégorie">
+        <option value="">Toutes Catégories</option>
+        <option value="vehicules">Véhicules</option>
+        <option value="immobilier">Immobilier</option>
+        <option value="emploi">Emploi</option>
+        <option value="services">Services</option>
+        <option value="mode">Mode</option>
+      </select>
+      <select title="Localisation">
+        <option value="">Toutes Localités</option>
+        <option value="paris">Paris</option>
+        <option value="lyon">Lyon</option>
+        <option value="bordeaux">Bordeaux</option>
+      </select>
+      <button><i class="fas fa-search"></i> Rechercher</button>
+    </div>
+
+    <h2 class="section-title">Parcourir par Catégories</h2>
+    <div class="category-grid">
+      <a href="#" class="category-card" title="Véhicules"><i class="fas fa-car"></i><p>Véhicules</p></a>
+      <a href="#" class="category-card" title="Immobilier"><i class="fas fa-home"></i><p>Immobilier</p></a>
+      <a href="#" class="category-card" title="Emploi"><i class="fas fa-briefcase"></i><p>Emploi</p></a>
+      <a href="#" class="category-card" title="Électronique"><i class="fas fa-mobile-alt"></i><p>Électronique</p></a>
+      <a href="#" class="category-card" title="Services"><i class="fas fa-tools"></i><p>Services</p></a>
+      <a href="#" class="category-card" title="Mode & Beauté"><i class="fas fa-tshirt"></i><p>Mode & Beauté</p></a>
+      <a href="#" class="category-card" title="Loisirs"><i class="fas fa-futbol"></i><p>Loisirs</p></a>
+      <a href="#" class="category-card" title="Autres"><i class="fas fa-ellipsis-h"></i><p>Autres</p></a>
+    </div>
+    
+    <h2 class="section-title">Annonces en Vedette ✨</h2>
+    <div class="ads-grid">
+      <div class="ad-card"><span class="badge-vedette">POPULAIRE</span><img src="https://via.placeholder.com/400x200?text=Appartement+Standing" alt="Appartement"><div class="ad-content"><h4>Appartement T3 centre ville</h4><p class="ad-price">95 000 <small>FCFA</small> / Mois</p><div class="ad-meta"><i class="fas fa-map-marker-alt"></i> Quartier des Affaires <span style="float: right;"><i class="fas fa-clock"></i> 2 jours</span></div></div></div>
+      <div class="ad-card"><img src="https://via.placeholder.com/400x200?text=Voiture+Occasion" alt="Voiture"><div class="ad-content"><h4>Voiture Berline - État Neuf</h4><p class="ad-price">5 500 000 <small>FCFA</small></p><div class="ad-meta"><i class="fas fa-map-marker-alt"></i> Zone Industrielle <span style="float: right;"><i class="fas fa-clock"></i> 5 heures</span></div></div></div>
+      <div class="ad-card"><span class="badge-vedette">URGENT</span><img src="https://via.placeholder.com/400x200?text=Service+Developpement" alt="Service développement"><div class="ad-content"><h4>Développeur Web Freelance</h4><p class="ad-price">Tarif sur <small>Devis</small></p><div class="ad-meta"><i class="fas fa-map-marker-alt"></i> À distance <span style="float: right;"><i class="fas fa-clock"></i> 1 jour</span></div></div></div>
+       <div class="ad-card"><img src="https://via.placeholder.com/400x200?text=Smartphone" alt="Smartphone"><div class="ad-content"><h4>Smartphone X 128Go</h4><p class="ad-price">280 000 <small>FCFA</small></p><div class="ad-meta"><i class="fas fa-map-marker-alt"></i> Centre Commercial <span style="float: right;"><i class="fas fa-clock"></i> 3 jours</span></div></div></div>
+    </div>
+    
+    <div class="cta-footer">
+        <h3>Vous avez quelque chose à vendre ou à échanger ?</h3>
+        <p>Rejoignez des milliers d'utilisateurs et publiez votre première annonce en moins d'une minute.</p>
+        <a href="publier.html" class="publish-btn">
+            <i class="fas fa-plus-circle"></i> Publier une Annonce Maintenant
+        </a>
+    </div>
+
+  </main>
+  
+  <div id="langModal" class="modal">
+    <div class="modal-content">
+      <h3>🌍 Langue et Devise</h3>
+      <label for="langue">Langue :</label><br>
+      <select id="langue">
+        <option value="fr">Français</option>
+        <option value="en">English</option>
+      </select><br>
+
+      <label for="devise">Devise :</label><br>
+      <select id="devise">
+        <option value="FCFA">FCFA</option>
+        <option value="EUR">€ Euro</option>
+        <option value="USD">$ Dollar</option>
+      </select><br>
+
+      <button onclick="saveLangSettings()">Enregistrer</button>
+      <button onclick="closeModal()">Fermer</button>
+    </div>
+  </div>
+
+  <script>
+    function toggleMenu() {
+      document.getElementById('menu').classList.toggle('active');
+    }
+
+    function openModal() {
+      document.getElementById('langModal').classList.add('active');
+    }
+
+    function closeModal() {
+      document.getElementById('langModal').classList.remove('active');
+    }
+
+    function saveLangSettings() {
+      const langue = document.getElementById('langue').value;
+      const devise = document.getElementById('devise').value;
+      localStorage.setItem('langue', langue);
+      localStorage.setItem('devise', devise);
+      alert(`Paramètres enregistrés : ${langue.toUpperCase()} / ${devise}`);
+      closeModal();
+    }
+
+    function activerOffline() {
+      localStorage.setItem('modeOffline', 'true');
+      alert('Mode hors ligne activé ! Vos annonces seront accessibles sans connexion.');
+    }
+
+    
+    window.addEventListener('load', () => {
+      const langue = localStorage.getItem('langue');
+      const devise = localStorage.getItem('devise');
+      if (langue) document.getElementById('langue').value = langue;
+      if (devise) document.getElementById('devise').value = devise;
+    });
+  </script>
+</body>
+</html>
