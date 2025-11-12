@@ -7,9 +7,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
-    /* ------------------------------------------- */
-    /* STYLES GÉNÉRAUX ET DU MENU (DOIVENT ÊTRE PARTOUT) */
-    /* ------------------------------------------- */
+     
     :root {
       --main-color: #ff7b00;
       --dark: #222;
@@ -62,7 +60,6 @@
       color: var(--dark);
     }
 
-    /* Styles pour le Modal (Langue & Devise) */
     .modal {
       display: none;
       position: fixed;
@@ -91,7 +88,6 @@
         margin: 10px 0;
     }
     
-    /* Media Query pour le Menu Mobile */
     @media (max-width: 768px) {
       .menu-toggle {
         display: block;
@@ -119,9 +115,7 @@
       }
     }
     
-    /* ------------------------------------------- */
-    /* STYLES SPÉCIFIQUES À ACCUEIL.HTML */
-    /* ------------------------------------------- */
+    
     main {
       padding: 0;
       max-width: 1200px;
@@ -294,18 +288,13 @@
     }
 
     
-    /* AJOUTS/VÉRIFICATIONS DANS LE <style> de accueil.html */
 
-/* Ajustement pour les petits écrans (smartphones) */
 @media (max-width: 600px) {
-    /* Menu (déjà fait) */
-    /* ... */
     
-    /* Barre de Recherche : passage en colonne */
     .search-bar {
         flex-direction: column;
         gap: 10px;
-        padding: 15px; /* Réduire le padding */
+        padding: 15px; 
     }
     .search-bar input[type="text"],
     .search-bar select,
@@ -314,19 +303,16 @@
         min-width: unset;
     }
     
-    /* Titres de section */
     .section-title {
         font-size: 24px;
         margin: 30px 0 15px 0;
     }
 
-    /* Grille d'Annonces : Laisser en auto-fit, mais réduire les marges */
     .ads-grid, .category-grid {
         padding: 0 10px 30px 10px;
         gap: 15px;
     }
 
-    /* Bouton CTA en pied de page */
     .cta-footer a.publish-btn {
         font-size: 1em;
         padding: 12px 20px;

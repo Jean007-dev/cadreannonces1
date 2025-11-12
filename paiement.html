@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadreannonces - Paiement Sécurisé</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        
+        :root {
+            --main-color: #ff7b00; 
+            --dark: #222;
+            --light: #fff;
+            --paiement-color: #ff7b00; 
+            --couleur-bordure: #ced4da;
+            --couleur-fond-page: #f4f7f6; 
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--couleur-fond-page);
+        }
+
+        header {
+            background-color: var(--main-color);
+            color: var(--light);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        header h1 {
+            font-size: 22px;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .menu-toggle {
+            display: none;
+            font-size: 28px;
+            cursor: pointer;
+        }
+
+        nav {
+            display: flex;
+            gap: 20px;
+        }
+
+        nav a {
+            color: var(--light);
+            text-decoration: none;
+            font-weight: 500;
+            transition: 0.3s;
+        }
+
+        nav a:hover {
+            color: var(--dark);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5);
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        .modal-content select, .modal-content button {
+            margin: 10px 0;
+            width: 80%;
+        }
+        
+        button {
+            background: var(--main-color);
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background: #e66a00;
+        }
+
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: block;
+            }
+
+            nav {
+                flex-direction: column;
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 250px;
+                height: 100%;
+                background-color: var(--main-color);
+                padding-top: 70px;
+                transition: right 0.4s ease;
+            }
+
+            nav.active {
+                right: 0;
+            }
+
+            nav a {
+                padding: 15px;
+                border-bottom: 1px solid rgba(255,255,255,0.2);
+            }
+        }
+        
+        
+        main {
+            max-width: 1100px;
+            margin: 30px auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: 2fr 1fr; 
+            gap: 30px;
+        }
+
+        
+        .payment-options {
+            background-color: var(--light);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .payment-options h2 {
+            color: var(--paiement-color);
+            border-bottom: 2px solid var(--couleur-bordure);
+            padding-bottom: 15px;
+            margin-bottom: 25px;
+            font-weight: 700;
+            font-size: 28px;
+        }
+        
+        
+        .card-form-section {
+            border: 1px solid #e9ecef;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        
+        .card-form-section h3 {
+            color: var(--dark);
+            font-size: 20px;
+            font-weight: 600;
+            margin-top: 0;
+        }
+        
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        
+        input[type="text"], input[type="number"], select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--couleur-bordure);
+            border-radius: 6px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+        
+        .card-row {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .card-row > div {
+            flex: 1;
+        }
+
+        .submit-payment-btn {
+            background-color: var(--paiement-color);
+            font-size: 18px;
+            padding: 15px;
+            margin-top: 20px;
+            transition: background-color 0.3s;
+        }
+        
+        .submit-payment-btn:hover {
+            background-color: #00b300;
+        }
+        
+        
+        .card-logos {
+            text-align: right;
+        }
+        .card-logos img {
+            height: 25px;
+            margin-left: 5px;
+            opacity: 0.8;
+        }
+        
+        
+        .order-summary {
+            background-color: var(--light);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            height: fit-content; 
+        }
+        
+        .order-summary h3 {
+            color: var(--dark);
+            font-size: 24px;
+            border-bottom: 1px dashed var(--couleur-bordure);
+            padding-bottom: 15px;
+            margin-top: 0;
+            margin-bottom: 20px;
+        }
+        
+        .item-line {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+        
+        .item-line span:first-child {
+            color: #6c757d;
+        }
+        
+        .total-line {
+            display: flex;
+            justify-content: space-between;
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--paiement-color);
+            border-top: 2px solid var(--main-color);
+            padding-top: 15px;
+            margin-top: 20px;
+        }
+        
+        .security-badge {
+            text-align: center;
+            padding-top: 20px;
+            color: var(--troc-color, #28a745); 
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        @media (max-width: 900px) {
+            main {
+                grid-template-columns: 1fr; 
+                margin: 20px auto;
+                padding: 0 15px;
+            }
+            
+            .order-summary {
+                order: -1;
+            }
+        }
+        
+        @media (max-width: 500px) {
+            .card-row {
+                flex-direction: column;
+                gap: 0;
+            }
+            .card-form-section {
+                padding: 15px;
+            }
+            .payment-options, .order-summary {
+                padding: 20px;
+            }
+            .payment-options h2 {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    
+    <header>
+        <h1>Cadreannonces</h1>
+        <span class="menu-toggle" onclick="toggleMenu()">☰</span>
+        <nav id="menu">
+            <a href="accueil.html">🏠 Accueil</a>
+            <a href="publier.html">🛒 Publier</a>
+            <a href="profil.html">👤 Profil</a>
+            <a href="vendeurs.html">🏪 Vendeurs</a>
+            <a href="troclocal.html">🔁 Troc local</a>
+            <a href="paiement.html">💳 Paiement</a>
+            <a href="#" onclick="openModal()">🌍 Langue & Devise</a>
+            <a href="#" onclick="activerOffline()">🔌 Mode Offline</a>
+        </nav>
+    </header>
+
+    <main>
+        
+        <div class="payment-options">
+            <h2><i class="fas fa-lock"></i> Finaliser le Paiement Sécurisé</h2>
+            
+            <div class="card-form-section">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                    <h3>Détails de la Carte</h3>
+                    <div class="card-logos">
+                        <img src="https://via.placeholder.com/40x25?text=VISA" alt="Visa">
+                        <img src="https://via.placeholder.com/40x25?text=MC" alt="MasterCard">
+                        <img src="https://via.placeholder.com/40x25?text=AMEX" alt="Amex">
+                    </div>
+                </div>
+                
+                <form action="/process-payment" method="POST">
+                    <div class="form-group">
+                        <label for="numero_carte">Numéro de Carte</label>
+                        <input type="number" id="numero_carte" placeholder="XXXX XXXX XXXX XXXX" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="nom_carte">Nom sur la Carte</label>
+                        <input type="text" id="nom_carte" placeholder="Nom et Prénom" required>
+                    </div>
+                    
+                    <div class="card-row">
+                        <div class="form-group">
+                            <label for="expiration">Date d'Expiration</label>
+                            <input type="text" id="expiration" placeholder="MM/AA" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="cvv">CVV</label>
+                            <input type="number" id="cvv" placeholder="XXX" required>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="submit-payment-btn">
+                        <i class="fas fa-credit-card"></i> Payer 1 099,99 FCFA
+                    </button>
+                </form>
+            </div>
+            
+            <div style="padding-top: 10px;">
+                <h3>Autres Options Disponibles</h3>
+                <button style="background-color: #5865f2; margin-right: 15px;">
+                    <i class="fab fa-paypal"></i> Payer avec PayPal
+                </button>
+                <button style="background-color: #21a366;">
+                    <i class="fab fa-google-pay"></i> Google Pay
+                </button>
+            </div>
+            
+        </div>
+        
+        <div class="order-summary">
+            <h3>Récapitulatif de Commande</h3>
+            
+            <div class="item-line">
+                <span>Annonce premium "Mise en avant"</span>
+                <span>999,00 FCFA</span>
+            </div>
+            <div class="item-line">
+                <span>Option "Urgent" (24h)</span>
+                <span>50,00 FCFA</span>
+            </div>
+            <div class="item-line">
+                <span>Frais de service (2%)</span>
+                <span>50,99 FCFA</span>
+            </div>
+            
+            <div class="total-line">
+                <span>Montant Total à Payer</span>
+                <span>1 099,99 FCFA</span>
+            </div>
+            
+            <div class="security-badge">
+                <i class="fas fa-shield-alt"></i> Transaction 100% Sécurisée (SSL)
+            </div>
+        </div>
+        
+    </main>
+    
+    <div id="langModal" class="modal">
+        <div class="modal-content">
+            <h3>🌍 Langue et Devise</h3>
+            <label for="langue">Langue :</label><br>
+            <select id="langue">
+                <option value="fr">Français</option>
+                <option value="en">English</option>
+            </select><br>
+
+            <label for="devise">Devise :</label><br>
+            <select id="devise">
+                <option value="FCFA">FCFA</option>
+                <option value="EUR">€ Euro</option>
+                <option value="USD">$ Dollar</option>
+            </select><br>
+
+            <button onclick="saveLangSettings()">Enregistrer</button>
+            <button onclick="closeModal()">Fermer</button>
+        </div>
+    </div>
+
+    <script>
+        function toggleMenu() {
+            document.getElementById('menu').classList.toggle('active');
+        }
+
+        function openModal() {
+            document.getElementById('langModal').classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('langModal').classList.remove('active');
+        }
+
+        function saveLangSettings() {
+            const langue = document.getElementById('langue').value;
+            const devise = document.getElementById('devise').value;
+            localStorage.setItem('langue', langue);
+            localStorage.setItem('devise', devise);
+            alert(`Paramètres enregistrés : ${langue.toUpperCase()} / ${devise}`);
+            closeModal();
+        }
+
+        function activerOffline() {
+            localStorage.setItem('modeOffline', 'true');
+            alert('Mode hors ligne activé ! Vos annonces seront accessibles sans connexion.');
+        }
+
+        
+        window.addEventListener('load', () => {
+            const langue = localStorage.getItem('langue');
+            const devise = localStorage.getItem('devise');
+            if (langue) document.getElementById('langue').value = langue;
+            if (devise) document.getElementById('devise').value = devise;
+        });
+    </script>
+</body>
+</html>
